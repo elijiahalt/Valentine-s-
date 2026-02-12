@@ -72,7 +72,7 @@ body{
   pointer-events:auto;
 }
 
-/* Top message */
+/* Top message with pulse animation */
 .message{
   position:fixed;
   top:18px;
@@ -84,6 +84,12 @@ body{
   text-shadow: 0 0 18px rgba(255,255,255,0.9);
   z-index:7;
   pointer-events:none;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }
 
 /* clouds */
@@ -108,11 +114,28 @@ body{
 @keyframes float{0%{transform:translateY(0);}100%{transform:translateY(-60px);}}
 @keyframes fade{0%,100%{opacity:0.3;}50%{opacity:0.6;}}
 
-/* petals behind portrait */
+/* sparkling stars */
+.star {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: twinkle 2s ease-in-out infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.5); }
+}
+
+/* petals behind portrait (more petals, varied sizes/colors) */
 .petal{
   position:fixed;
-  width:14px; height:14px;
-  background: linear-gradient(120deg,#ffd1e2,#ffc0df);
+  width:var(--size, 14px); height:var(--size, 14px);
+  background: linear-gradient(120deg, var(--color-start, #ffd1e2), var(--color-end, #ffc0df));
   border-radius:60% 40% 60% 40%;
   opacity:0.7;
   z-index:1;
@@ -126,7 +149,7 @@ body{
   100%{ transform: translateY(110vh) translateX(calc(var(--sway,-30px) * -1)) rotate(360deg); opacity:0.6; }
 }
 
-/* portrait wrapper */
+/* portrait wrapper with glow border */
 .portrait-wrap{
   width:min(92vw,820px);
   max-height:84vh;
@@ -138,19 +161,21 @@ body{
   z-index:3;
   position:relative;
   pointer-events:auto;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
 }
 
-/* overlay behind portrait */
+/* overlay behind portrait (reduced opacity for more vivid portrait) */
 .portrait-overlay{
   position:absolute;
   inset:0;
-  background: rgba(0,0,0,0.12);
+  background: rgba(0,0,0,0.04);
   z-index:2;
   border-radius:6px;
   pointer-events:none;
 }
 
-/* portrait text */
+/* portrait text (adjusted shadow for clarity) */
 #portrait{
   width:100%;
   max-height: calc(84vh - 140px);
@@ -165,7 +190,7 @@ body{
   text-align:center;
   margin:0;
   z-index:3;
-  text-shadow: 0 0 4px rgba(255,255,255,0.3), 0 0 6px rgba(0,0,0,0.2);
+  text-shadow: 0 0 6px rgba(255,255,255,0.4), 0 0 2px rgba(0,0,0,0.1);
 }
 
 /* heart button */
@@ -257,9 +282,9 @@ letter.addEventListener('click', () => {
   main.setAttribute('aria-hidden','false');
 });
 
-/* petals */
+/* petals (more, with variations) */
 function rand(min,max){ return Math.random()*(max-min)+min; }
-for(let i=0;i<36;i++){
+for(let i=0;i<50;i++){  // Increased from 36 to 50
   const petal = document.createElement('div');
   petal.className='petal';
   petal.style.left=rand(0,100)+'vw';
@@ -273,7 +298,22 @@ for(let i=0;i<36;i++){
   petal.style.setProperty('--sway', rand(15,60)+'px');
   petal.style.animationDuration = rand(6,12)+'s';
   petal.style.animationDelay = rand(0,6)+'s';
+  const size = rand(10,18);
+  petal.style.setProperty('--size', size + 'px');
+  const colors = ['#ffd1e2', '#ffc0df', '#ffb3e0', '#ff99d6'];  // Varied colors
+  petal.style.setProperty('--color-start', colors[Math.floor(rand(0, colors.length))]);
+  petal.style.setProperty('--color-end', colors[Math.floor(rand(0, colors.length))]);
   document.body.appendChild(petal);
+}
+
+/* stars */
+for(let i=0;i<40;i++){
+  const star = document.createElement('div');
+  star.className='star';
+  star.style.left=rand(0,100)+'vw';
+  star.style.top=rand(0,100)+'vh';
+  star.style.animationDelay = rand(0,2)+'s';
+  document.body.appendChild(star);
 }
 
 /* heart button music + confetti */
