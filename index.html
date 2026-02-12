@@ -2,9 +2,10 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Text Portrait</title>
+
   <style>
-    /* CSS goes here */
     body {
       margin: 0;
       padding: 0;
@@ -13,24 +14,30 @@
     }
 
     #portrait {
-      font-size: 6px;
-      line-height: 6px;
-      width: 100%;
+      width: 100vw;
       height: 100vh;
-      background: url('bg.jpg') center/cover no-repeat;
+
+      font-size: 1.5vw;        /* Responsive size */
+      line-height: 1.5vw;
+
+      background: url('bg.jpg') center center no-repeat;
+      background-size: contain;  /* Makes whole image fit */
+
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
+
+      word-break: break-word;
     }
   </style>
 </head>
+
 <body>
   <p id="portrait"></p>
 
   <script>
-    // JavaScript goes here
-    const text = "I love youu mahal kii "; // Change this to your message
-    document.getElementById("portrait").innerText = text.repeat(3000);
+    const text = "I love youu mahal kii ";
+    document.getElementById("portrait").innerText = text.repeat(4000);
   </script>
 </body>
 </html>
