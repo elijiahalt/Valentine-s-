@@ -91,28 +91,51 @@ body{
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.05); }
 }
-
 /* clouds */
-.cloud{
-  position:fixed;
-  width:260px;
-  height:140px;
+.cloud {
+  position: fixed;
+  width: 260px;
+  height: 140px;
   background: radial-gradient(circle at 30% 30%, #ffffff 55%, rgba(255,255,255,0.45));
-  border-radius:100px;
-  opacity:0.45;
+  border-radius: 100px;
+  opacity: 0.45;
   filter: blur(10px);
-  animation: float 14s ease-in-out infinite alternate, fade 10s ease-in-out infinite;
-  z-index:1;
-  pointer-events:none;
-}
-.cloud::before,.cloud::after{ content:""; position:absolute; background:white; border-radius:50%; }
-.cloud::before{ width:130px; height:130px; top:-40px; left:40px; }
-.cloud::after{ width:160px; height:160px; top:-70px; right:30px; }
-.cloud.left{ left:-80px; top:20%; }
-.cloud.right{ right:-80px; top:60%; animation-delay:5s; }
+  z-index: 1;
+  pointer-events: none;
 
-@keyframes float{0%{transform:translateY(0);}100%{transform:translateY(-60px);}}
-@keyframes fade{0%,100%{opacity:0.3;}50%{opacity:0.6;}}
+  animation: cloudWave 8s ease-in-out infinite; /* slower + dreamy */
+  will-change: transform;
+}
+
+@keyframes cloudWave {
+  0% {
+    transform: translateX(0px) translateY(0px);
+  }
+  25% {
+    transform: translateX(20px) translateY(-20px);
+  }
+  50% {
+    transform: translateX(-20px) translateY(15px);
+  }
+  75% {
+    transform: translateX(15px) translateY(-10px);
+  }
+  100% {
+    transform: translateX(0px) translateY(0px);
+  }
+}
+
+.cloud.left {
+  left: -80px;
+  top: 20%;
+  animation-delay: 0s;
+}
+
+.cloud.right {
+  right: -80px;
+  top: 60%;
+  animation-delay: 8s;
+}
 
 /* sparkling stars */
 .star {
@@ -169,7 +192,7 @@ body{
 .portrait-overlay{
   position:absolute;
   inset:0;
-  background: rgba(0,0,0,0.04);
+  background: rgba(255,182,217,0.15);
   z-index:2;
   border-radius:6px;
   pointer-events:none;
@@ -190,7 +213,7 @@ body{
   text-align:center;
   margin:0;
   z-index:3;
-  text-shadow: 0 0 6px rgba(255,255,255,0.4), 0 0 2px rgba(0,0,0,0.1);
+  text-shadow: 0 0 6px rgba(255,255,255,0.15), 0 0 2px rgba(0,0,0,0.1);
 }
 
 /* heart button */
