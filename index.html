@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Text Portrait</title>
+  <style>
+    /* CSS goes here */
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      overflow: hidden;
+    }
+
+    #portrait {
+      font-size: 6px;
+      line-height: 6px;
+      width: 100%;
+      height: 100vh;
+      background: url('bg.jpg') center/cover no-repeat;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+<body>
+  <p id="portrait"></p>
+
+  <script>
+    // JavaScript goes here
+    const text = "I love youu mahal kii "; // Change this to your message
+    document.getElementById("portrait").innerText = text.repeat(3000);
+  </script>
+</body>
+</html>
