@@ -9,35 +9,76 @@
     body {
       margin: 0;
       padding: 0;
-      background: #000;
+      background: pink;
       overflow: hidden;
+      position: relative;
     }
 
+    /* TEXT PORTRAIT */
     #portrait {
       width: 100vw;
       height: 100vh;
 
-      font-size: 1.5vw;        /* Responsive size */
+      font-size: 1.5vw;
       line-height: 1.5vw;
 
       background: url('bg.jpg') center center no-repeat;
-      background-size: contain;  /* Makes whole image fit */
+      background-size: contain;
 
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
 
       word-break: break-word;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* CLOUD STYLE */
+    .cloud {
+      position: absolute;
+      font-size: 80px;
+      opacity: 0.8;
+      animation: float 6s ease-in-out infinite alternate;
+      z-index: 1;
+    }
+
+    .cloud.left {
+      left: 10px;
+      top: 20%;
+    }
+
+    .cloud.right {
+      right: 10px;
+      top: 60%;
+      animation-delay: 3s;
+    }
+
+    /* Floating animation */
+    @keyframes float {
+      0% {
+        transform: translateY(0px);
+      }
+      100% {
+        transform: translateY(-40px);
+      }
     }
   </style>
 </head>
 
 <body>
+
+  <!-- CLOUDS -->
+  <div class="cloud left">☁️</div>
+  <div class="cloud right">☁️</div>
+
+  <!-- TEXT PORTRAIT -->
   <p id="portrait"></p>
 
   <script>
-    const text = ". ";
+    const text = "I love youu mahal kii ";
     document.getElementById("portrait").innerText = text.repeat(4000);
   </script>
+
 </body>
 </html>
