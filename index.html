@@ -173,29 +173,33 @@ body{
 }
 
 /* portrait wrapper with glow border */
-.portrait-wrap{
-  width:min(92vw,820px);
-  max-height:84vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:var(--heart-offset);
-  z-index:3;
-  position:relative;
-  pointer-events:auto;
+.portrait-wrap {
+  width: auto;             /* let it match the image width */
+  max-width: 100%;         /* prevent it from overflowing on mobile */
+  height: auto;            /* height matches image height */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--heart-offset);
+  z-index: 3;
+  position: relative;
+  pointer-events: auto;
   border-radius: 12px;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
 }
 
 /* overlay behind portrait (reduced opacity for more vivid portrait) */
-.portrait-overlay{
-  position:absolute;
-  inset:0;
-  background: rgba(255,182,217,0.15);
-  z-index:2;
-  border-radius:6px;
-  pointer-events:none;
+.portrait-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;   /* matches the portrait width */
+  height: 100%;  /* matches the portrait height */
+  background: rgba(255,182,217,0.15);  /* adjust opacity if you want it lighter/darker */
+  z-index: 2;
+  border-radius: 6px;
+  pointer-events: none;
 }
 
 /* portrait text (adjusted shadow for clarity) */
