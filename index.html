@@ -172,67 +172,78 @@ body{
   100%{ transform: translateY(110vh) translateX(calc(var(--sway,-30px) * -1)) rotate(360deg); opacity:0.6; }
 }
 
-/* portrait wrapper with glow border */
+/* portrait wrapper (polaroid frame) */
 .portrait-wrap {
-  width: auto;             /* let it match the image width */
-  max-width: 100%;         /* prevent it from overflowing on mobile */
-  height: auto;            /* height matches image height */
+  width: min(92vw, 520px); /* narrower for polaroid feel */
+  background: white;
+  padding: 8px 8px 48px 8px; /* thin borders top/sides, thicker bottom for caption */
+  border-radius: 4px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: var(--heart-offset);
-  z-index: 3;
   position: relative;
+  z-index: 3;
   pointer-events: auto;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
 }
 
-/* overlay behind portrait (reduced opacity for more vivid portrait) */
+/* container for portrait with aspect ratio */
+.portrait-container {
+  position: relative;
+  width: 100%;
+}
+
+.portrait-container::before {
+  content: "";
+  display: block;
+  padding-top: var(--aspect-ratio, 133%); /* default; JS sets actual */
+}
+
+/* overlay (black tint on top of portrait) */
 .portrait-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;   /* matches the portrait width */
-  height: 100%;  /* matches the portrait height */
-  background: rgba(255,182,217,0.15);  /* adjust opacity if you want it lighter/darker */
+  inset: 0;
+  background: rgba(0,0,0,0.2); /* black overlay; adjust opacity as needed */
   z-index: 2;
-  border-radius: 6px;
   pointer-events: none;
 }
 
-/* portrait text (adjusted shadow for clarity) */
+/* portrait text */
 #portrait{
-  width:100%;
-  max-height: calc(84vh - 140px);
+  position: absolute;
+  inset: 0;
   font-size: var(--portrait-font-vw);
   line-height: var(--portrait-font-vw);
   background: url('bg.jpg') center center no-repeat;
-  background-size: contain;
+  background-size: cover; /* fill exactly */
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  word-break:break-word;
-  text-align:center;
-  margin:0;
-  z-index:3;
+  word-break: break-word;
+  text-align: center;
+  margin: 0;
+  overflow: hidden; /* hide excess text */
+  z-index: 1;
   text-shadow: 0 0 6px rgba(255,255,255,0.15), 0 0 2px rgba(0,0,0,0.1);
 }
 
-/* heart button */
+/* heart button (in polaroid bottom frame) */
 .heart-area{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:8px;
-  z-index:6;
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 6;
 }
 
 .press-label{
   font-size:14px;
-  color:#fff;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  color:#b54677; /* match letter color for polaroid caption feel */
+  text-shadow: none;
 }
 
 #loveButton{
@@ -261,6 +272,8 @@ body{
   .message{ font-size:28px; top:12px; }
   #loveButton{ font-size:36px; }
   :root{ --portrait-font-vw: 2.2vw; }
+  .press-label{ font-size:12px; }
+  .portrait-wrap{ padding: 6px 6px 36px 6px; }
 }
 </style>
 </head>
@@ -282,8 +295,10 @@ body{
   <div class="cloud left"></div>
   <div class="cloud right"></div>
   <div class="portrait-wrap">
-    <div class="portrait-overlay"></div>
-    <p id="portrait"></p>
+    <div class="portrait-container">
+      <div class="portrait-overlay"></div>
+      <p id="portrait"></p>
+    </div>
     <div class="heart-area">
       <div class="press-label">Press it</div>
       <button id="loveButton">🌸</button>
@@ -297,6 +312,15 @@ body{
 const portraitEl = document.getElementById('portrait');
 const text = "I love youu mahal kii ";
 portraitEl.innerText = text.repeat(4200);
+
+/* set portrait aspect ratio dynamically */
+const portraitContainer = document.querySelector('.portrait-container');
+const img = new Image();
+img.src = 'bg.jpg';
+img.onload = function() {
+  const aspect = (this.height / this.width) * 100;
+  portraitContainer.style.setProperty('--aspect-ratio', aspect + '%');
+};
 
 /* fade in main scene on letter click */
 const envelope = document.getElementById('envelope');
