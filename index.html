@@ -1,3 +1,5 @@
+
+</body>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,11 +8,18 @@
 <title>Valentine Letter</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"> <!-- Added from repo for portrait font -->
 
 <style>
 :root{
   --heart-offset: 28px;
   --portrait-font-vw: 2vw; /* Increased for thicker text */
+  --portrait-font-family: 'Inter', sans-serif; /* From repo */
+  --portrait-brightness: 1.1; /* From repo style; adjust for vividness */
+  --portrait-grayscale: 0; /* 1 for B&W */
+  --portrait-invert: 0; /* 1 to flip colors */
+  --portrait-contrast: 120%; /* Existing enhancements */
+  --portrait-saturate: 130%;
 }
 
 *{box-sizing:border-box}
@@ -199,24 +208,31 @@ body{
   padding-top: var(--aspect-ratio, 133%); /* default; JS sets actual */
 }
 
-/* portrait text (enhanced visibility with filters) */
+/* portrait text (enhanced with repo's technique: variables for filters, white-space for better fill) */
 #portrait{
   position: absolute;
   inset: 0;
+  font-family: var(--portrait-font-family); /* From repo */
   font-size: var(--portrait-font-vw);
   line-height: 0.95; /* Tighter for denser text, showing more image */
-  background: url('bg.jpg') center center no-repeat;
-  background-size: cover; /* fill exactly */
+  white-space: pre-wrap; /* From repo: allows better wrapping and fill */
+  background: url('bg.jpg') center center / cover no-repeat; /* Updated to cover from repo */
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  color: transparent; /* Fallback from repo */
   word-break: break-word;
   text-align: center;
   margin: 0;
   overflow: hidden; /* hide excess text */
   z-index: 1;
   text-shadow: 0 0 2px rgba(255,255,255,0.3), 0 0 1px rgba(0,0,0,0.05); /* subtler for clarity */
-  filter: contrast(120%) saturate(130%) brightness(110%); /* Boost vividness */
+  filter: 
+    brightness(var(--portrait-brightness)) 
+    grayscale(var(--portrait-grayscale)) 
+    invert(var(--portrait-invert)) 
+    contrast(var(--portrait-contrast)) 
+    saturate(var(--portrait-saturate)); /* Combined repo filters + existing */
 }
 
 /* heart button (in polaroid bottom frame) */
@@ -301,8 +317,15 @@ body{
 
 <script>
 const portraitEl = document.getElementById('portrait');
-const text = "I love youu mahal ko kiss ko bi Mwahh";
-portraitEl.innerText = text.repeat(4200);
+const text = "I love youu mahal ko kiss ko bi Mwahh "; // Added space for better separation, like repo
+
+// Dynamic text repetition from repo technique (adjusts to screen size)
+function fillText() {
+  const repeatCount = Math.ceil((window.innerWidth * window.innerHeight) / 100); // Rough estimate; tweak /100 for density
+  portraitEl.innerText = text.repeat(repeatCount);
+}
+fillText();
+window.addEventListener('resize', fillText);
 
 /* set portrait aspect ratio dynamically */
 const portraitContainer = document.querySelector('.portrait-container');
@@ -398,4 +421,4 @@ loveBtn.addEventListener('click',()=>{
 </script>
 
 </body>
-</html>
+</html></html>
